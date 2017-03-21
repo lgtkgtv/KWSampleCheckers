@@ -1,0 +1,52 @@
+<checkers version="1.3">
+    <categories>
+        <category name="C and C++">
+            <category name="Custom checkers">
+                <error id="MASARU.NPD.MEMSET.ARRAY_PTR"/>
+            </category>
+        </category>
+    </categories>
+
+    <checkergroup language="C/C++" api="tree_pattern">
+        <checker id="MASARU.NPD.MEMSET.ARRAY_PTR">
+            <error id="MASARU.NPD.MEMSET.ARRAY_PTR"
+                   enabled="true"
+                   severity="4"
+                   title="Null pointer defererence at memset by pointer array"
+                   message="Null pointer assigned to {0}[{1}] at line {2} may be dereferenced at memset call">
+                <pattern>
+                    //ExprStmt
+	[Expr::BinaryExpr	[Left::IndexExpr
+			[isPointer()]
+			[Expr::IdExpr     
+				[$array_name:=getName()]
+                    		[$0 := getName()]
+          		]
+          		[Index::LiteralExpr     [$array_index:=getIntValue()]
+                         	[$1 := getIntValue()]
+          		]
+		]
+		[	Right::IdExpr
+				[getName() = 'NULL']
+			|
+			Right::LiteralExpr
+				[getIntValue() = 0]
+		]
+		[$2 := getNodeLine()]
+	]
+	/following-sibling::AnyStmt/descendant-or-self::CallExpr
+		[getName()='memset']
+		[Args[0]::IndexExpr
+          		[Expr::IdExpr
+				[$array_name = getName()]
+        		]
+          		[Index::LiteralExpr
+				[$array_index = getIntValue()]
+          		]
+     		]
+                </pattern>
+            </error>
+        </checker>
+    </checkergroup>
+</checkers>
+
