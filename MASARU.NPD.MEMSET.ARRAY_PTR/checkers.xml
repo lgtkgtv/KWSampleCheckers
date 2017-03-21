@@ -15,8 +15,8 @@
                    title="Null pointer defererence at memset by pointer array"
                    message="Null pointer assigned to {0}[{1}] at line {2} may be dereferenced at memset call">
                 <pattern>
-                    //ExprStmt
-	[Expr::BinaryExpr	[Left::IndexExpr
+//FuncBody/Stmt::CompoundStmt/Stmts[*]::AnyStmt
+	[descendant-or-self::BinaryExpr	[Left::IndexExpr
 			[isPointer()]
 			[Expr::IdExpr     
 				[$array_name:=getName()]
@@ -44,6 +44,7 @@
 				[$array_index = getIntValue()]
           		]
      		]
+
                 </pattern>
             </error>
         </checker>
