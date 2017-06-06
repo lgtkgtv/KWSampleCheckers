@@ -3,6 +3,7 @@
         <category name="C and C++">
             <category name="Sample Custom CWE checkers">
                 <error id="MASARU.C.CWE243.SAMPLE"/>
+                <error id="MASARU.C.CWE681.SAMPLE"/>
                 <error id="MASARU.C.CWE831.SAMPLE"/>
             </category>
         </category>
@@ -24,6 +25,18 @@
     [following-sibling::*/descendant::CallExpr
         [getName()='fopen' | getName()='open']
     ]
+                </pattern>
+            </error>
+        </checker>
+        <checker id="MASARU.C.CWE681.SAMPLE">
+            <error id="MASARU.C.CWE681.SAMPLE"
+                   enabled="true"
+                   severity="4"
+                   title="negative value returned for unsigned return type"
+                   message="negative value returned for unsigned return type">
+                <pattern>
+    //FuncDef [getReturnType().isUnsigned()]
+    /FuncBody::FuncBody/descendant::ReturnStmt/Expr::AnyExpr[getIntValue() &lt; 0]
                 </pattern>
             </error>
         </checker>

@@ -69,6 +69,38 @@ switch ( x )
 }
 }
 
+typedef unsigned int myuint;
+
+
+
+unsigned long int CWE_681_NG1(int result){
+    switch(result){
+        case 1:
+            return -1;
+        default:
+            return 0;
+    }
+}
+
+myuint CWE_681_NG2(int result){
+    switch(result){
+        case 1:
+            return -1;
+        default:
+            return 0;
+    }
+}
+
+
+int CWE_681_OK(int result){
+    switch(result){
+        case 1:
+            return -1;
+        default:
+            return 0;
+    }
+}
+
 void CWE831_handler1 (int sigNum) {
 
 }
